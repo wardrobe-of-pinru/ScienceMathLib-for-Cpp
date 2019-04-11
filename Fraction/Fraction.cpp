@@ -209,86 +209,83 @@ Fraction operator/(const integer a, const Fraction &b)
 
 Fraction ToFraction(string s)
 {
-	integer sl = s.length();
-	string beforedot;
-	string afterdot;
-	integer t = 0, k = 1, tt;
-	bool dot = false;
-	if (s[sl - 1] != '.')
+	int sl = s.length();
+	string s1, s2, s3;
+	bool dot1 = false, dot2 = false, end = false;
+	for (int i = 0; i < sl; i++)
 	{
-		for (int i = 0; i < sl; i++)
+		if (!dot1)
 		{
 			if (s[i] == '.')
 			{
-				dot = true;
+				dot1 = true;
 				continue;
-			}
-			if (dot)
-			{
-				afterdot.push_back(s[i]);
 			}
 			else
 			{
-				beforedot.push_back(s[i]);
+				s1.push_back(s[i]);
 			}
 		}
-		int bl = beforedot.length();
-		int al = afterdot.length();
-		for (int i = 0; i < bl; i++)
+		else if (!dot2)
 		{
-			t += (beforedot[bl - i - 1] - '0') * k;
-			k *= 10;
+			if (s[i] == '.')
+			{
+				dot2 = true;
+				continue;
+			}
+			else
+			{
+				s2.push_back(s[i]);
+			}
 		}
-		tt = t;
-		t = 0;
-		k = 1;
-		for (int i = 0; i < al; i++)
+		else if (!end)
 		{
-			t += (afterdot[al - i - 1] - '0') * k;
-			k *= 10;
+			if (s[i] == '.')
+			{
+				end = true;
+				break;
+			}
+			else
+			{
+				s3.push_back(s[i]);
+			}
 		}
-		Fraction ans(t, k);
-		return ans + tt;
+	}
+	end = true;
+	integer k = 1;
+	integer temp = 0;
+	int s1l = s1.length();
+	for (int i = 0; i < s1l; i++)
+	{
+		temp += (s1[i] - '0') * k;
+		k *= 10;
+	}
+	integer part1 = temp;
+	temp = 0;
+	int s2l = s2.length();
+	k = 1;
+	for (int i = 0; i < s2l; i++)
+	{
+		temp += (s2[s2l - 1 - i] - '0') * k;
+		k *= 10;
+	}
+	Fraction part2(temp, k);
+	int k1 = k;
+	temp = 0;
+	k = 1;
+	int s3l = s3.length();
+	for (int i = 0; i < s3l; i++)
+	{
+		temp += (s3[s3l - 1 - i] - '0') * k;
+		k *= 10;
+	}
+	if (temp != 0)
+	{
+		Fraction part3(temp, (k - 1) * k1);
+		return part1 + part2 + part3;
 	}
 	else
 	{
-		while (s[sl-t-1]=='.')
-		{
-			s.pop_back();
-		}
-		sl = s.length();
-		for (int i = 0; i < sl; i++)
-		{
-			if (s[i] == '.')
-			{
-				dot = true;
-				continue;
-			}
-			if (dot)
-			{
-				afterdot.push_back(s[i]);
-			}
-			else
-			{
-				beforedot.push_back(s[i]);
-			}
-		}
-		int bl = beforedot.length();
-		int al = afterdot.length();
-		for (int i = 0; i < bl; i++)
-		{
-			t += (beforedot[bl - i - 1] - '0') * k;
-			k *= 10;
-		}
-		tt = t;
-		t = 0;
-		k = 1;
-		for (int i = 0; i < al; i++)
-		{
-			t += (afterdot[al - i - 1] - '0') * k;
-			k *= 10;
-		}
-		Fraction ans(t, k - 1);
-		return tt + ans;
+		return part1 + part2;
 	}
 }
