@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+.vscode/ipch/c9e9350d7bb89499/NUMBER.ipch
+*.ipch
+.vscode/ipch/c9e9350d7bb89499/mmap_address.bin
+.vscode/ipch/881220d6ab76469c/mmap_address.bin
+.vscode/ipch/718c3f7ed9818f05/mmap_address.bin
